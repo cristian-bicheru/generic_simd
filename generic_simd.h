@@ -14,7 +14,6 @@
 #endif
 
 // Static Assertions in C
-// SEE SPEC.md FOR USAGE
 #define _STATIC_ASSERT_CONCAT(a,b,c) a##_##b##_AT_LINE_##c
 #define STATIC_ASSERT(assertion, msg) _STATIC_ASSERT(assertion, __LINE__, msg)
 #define _STATIC_ASSERT(assertion, line, msg) \
