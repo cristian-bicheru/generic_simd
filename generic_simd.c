@@ -1,4 +1,5 @@
 #include "generic_simd.h"
+#include <stdlib.h>
 
 inline __attribute__((always_inline)) int double_get_next_index(int len, int start) {
     return len - (len-start) % DOUBLE_VEC_SIZE;
@@ -24,7 +25,7 @@ bool check_float_align(const float* arr) {
     return ((uint64_t) arr)%(sizeof(float)*FLOAT_VEC_SIZE) == 0 ? true : false;
 }
 
-STATIC_ASSERT(sizeof(double) * DOUBLE_VEC_SIZE == sizeof(float) * FLOAT_VEC_SIZE, INCONSISTENT_VECTOR_WIDTHS);
+//STATIC_ASSERT(sizeof(double) * DOUBLE_VEC_SIZE == sizeof(float) * FLOAT_VEC_SIZE, INCONSISTENT_VECTOR_WIDTHS);
 const uint64_t ALGN_MOD = (sizeof(double) * DOUBLE_VEC_SIZE)-1;
 
 int64_t double_next_aligned_pointer(const double* addr) {

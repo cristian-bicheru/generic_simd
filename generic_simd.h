@@ -13,12 +13,14 @@
 #define min(a,b) ((a) < (b) ? (a) : (b))
 #endif
 
+/**
 // Static Assertions in C
 #define _STATIC_ASSERT_CONCAT(a,b,c) a##_##b##_AT_LINE_##c
 #define STATIC_ASSERT(assertion, msg) _STATIC_ASSERT(assertion, __LINE__, msg)
 #define _STATIC_ASSERT(assertion, line, msg) \
     typedef char _STATIC_ASSERT_CONCAT(STATIC_ASSERTION_FAILURE, msg, line)[1]; \
     typedef char _STATIC_ASSERT_CONCAT(STATIC_ASSERTION_FAILURE, msg, line)[(assertion)?1:2];
+**/
 
 /**
  * Find The First Index Not Covered By SIMD Vector
@@ -121,11 +123,11 @@ int64_t float_next_aligned_pointer(const float* addr);
         }
     #else
         inline __attribute__((always_inline)) __float_vector _float_load(const float* addr) {
-            return _mm256_stream_load_si256((const __m256i *) addr);
+            return (__float_vector) _mm256_stream_load_si256((const __m256i *) addr);
         }
 
         inline __attribute__((always_inline)) __double_vector _double_load(const double* addr) {
-            return _mm256_stream_load_si256((const __m256i *) addr);
+            return (__double_vector) _mm256_stream_load_si256((const __m256i *) addr);
         }
     #endif
 
@@ -790,9 +792,18 @@ int64_t float_next_aligned_pointer(const float* addr);
     #define DOUBLE_VEC_SIZE 1
     #define simd_malloc malloc
 
-    inline __attribute__((always_inline)) void _float_storeu(float* addr, const __float_vector A) {
+    inline __attribute__((always_inline)) void _float_store(float* addr, const __float_vector A) {
         addr[0] = A;
     }
+
+    inline __attribute__((always_inline)) void _double_store(double* addr, const __double_vector A) {
+        addr[0] = A;
+    }
+
+
+    inline __attribute__((always_inline)) void _float_storeu(float* addr, const __float_vector A) {
+            addr[0] = A;
+        }
 
     inline __attribute__((always_inline)) void _double_storeu(double* addr, const __double_vector A) {
         addr[0] = A;
