@@ -800,13 +800,20 @@ int64_t float_next_aligned_pointer(const float* addr);
         addr[0] = A;
     }
 
-
     inline __attribute__((always_inline)) void _float_storeu(float* addr, const __float_vector A) {
             addr[0] = A;
         }
 
     inline __attribute__((always_inline)) void _double_storeu(double* addr, const __double_vector A) {
         addr[0] = A;
+    }
+
+    inline __attribute__((always_inline))  __float_vector _float_load(const float* addr) {
+        return addr[0];
+    }
+    
+    inline __attribute__((always_inline))  __double_vector _double_load(const double* addr) {
+        return addr[0];
     }
 
     inline __attribute__((always_inline))  __float_vector _float_loadu(const float* addr) {
