@@ -1,20 +1,28 @@
 #include "generic_simd.h"
 #include <stdlib.h>
 
-inline __attribute__((always_inline)) int double_get_next_index(int len, int start) {
+int double_get_next_index(int len, int start) {
     return len - (len-start) % DOUBLE_VEC_SIZE;
 }
 
-inline __attribute__((always_inline)) int float_get_next_index(int len, int start) {
+int float_get_next_index(int len, int start) {
     return len - (len-start) % FLOAT_VEC_SIZE;
 }
 
 double* double_malloc(int len) {
+#ifndef _MSC_VER
     return aligned_alloc(sizeof(double)*DOUBLE_VEC_SIZE, len* sizeof(double));
+#else
+    return _aligned_malloc(sizeof(double)*DOUBLE_VEC_SIZE, len* sizeof(double));
+#endif
 }
 
 float* float_malloc(int len) {
+#ifndef _MSC_VER
     return aligned_alloc(sizeof(float)*FLOAT_VEC_SIZE, len* sizeof(float));
+#else
+    return _aligned_malloc(sizeof(float)*FLOAT_VEC_SIZE, len* sizeof(float));
+#endif
 }
 
 bool check_double_align(const double* arr) {
